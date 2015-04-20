@@ -1,15 +1,25 @@
-﻿declare module proj4 {
-    export function defs(name : string, def : string);
-    //export function proj4(firstProjection : string, secondProection : string, soordinates : number[]) : number[];
-    export function transform(source : Proj, dest : Proj, coord : Point) : Point;
-    export class Proj {
-        constructor(defName : string);
+declare module "proj4" {
+
+    interface Transformer {
+        forward: (p: Point) => Point;
+        inverse: (p: Point) => Point;
     }
 
-    export function toPoint(arr : number[]) : Point;
-
-    export class Point {
-        x : number;
+    class Point {
+        x: number;
         y: number;
+        constructor(x: number, y: number);
     }
-} 
+
+    function Proj(a, b): Transformer;
+
+    module Proj {
+        export function defs(name: string): any;
+        export function defs(name: string, def: string): void;
+        export function transform(from: any, to: any, pt: Point): Point;
+        export function parse(sr: string): any;
+    }
+    
+    export = Proj;
+
+}
